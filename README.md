@@ -1,7 +1,7 @@
 # Adversarial Search
 **Adversarial search assignment**
 
-Assignment description is [here](tex/ai-t1b.pdf)!  
+Assignment description is [here](ai-t1b.pdf)!  
 Requires [Pygame](http://www.pygame.org/news.html) :snake:  
 Tested with [Python](https://www.python.org/) 2.7.9  
 Check out this [Python](http://learnpython.org/) tutorial!
