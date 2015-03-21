@@ -24,18 +24,25 @@ DRAW = 0
 # ------------------------------------------
 
 def find_winner(board):
-    for i in range(3):
-        # Row
-        if board[i][0] != 0 and board[i][0] == board[i][1] and board[i][1] == board[i][2]:
-            return board[i][0]
-        # Column
-        elif board[0][i] != 0 and board[0][i] == board[1][i] and board[1][i] == board[2][i]:
-            return board[0][i]
-    # Diagonal
-    if board[0][0] != 0 and board[0][0] == board[1][1] and board[1][1] == board[2][2]:
-        return board[0][0]
-    elif board[0][2] != 0 and board[0][2] == board[1][1] and board[1][1] == board[2][0]:
-        return board[0][2]
+    # Rows
+    if board[0] and board[0] == board[1] and board[1] == board[2]:
+        return board[0]
+    elif board[3] and board[3] == board[4] and board[4] == board[5]:
+        return board[3]
+    elif board[6] and board[6] == board[7] and board[7] == board[8]:
+        return board[6]
+    # Columns
+    elif board[0] and board[0] == board[3] and board[3] == board[6]:
+        return board[0]
+    elif board[1] and board[1] == board[4] and board[4] == board[7]:
+        return board[1]
+    elif board[2] and board[2] == board[5] and board[5] == board[8]:
+        return board[2]
+    # Diagonals
+    elif board[0] and board[0] == board[4] and board[4] == board[8]:
+        return board[0]
+    elif board[2] and board[2] == board[4] and board[4] == board[6]:
+        return board[2]
     return None
 
 # ------------------------------------------
@@ -43,9 +50,4 @@ def find_winner(board):
 # ------------------------------------------
 
 def find_empty_cells(board):
-    cells = []
-    for i in range(3):
-        for j in range(3):
-            if board[j][i] == 0:
-                cells.append((i,j))
-    return cells
+    return [index for index in range(9) if board[index] == 0]

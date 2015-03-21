@@ -42,7 +42,7 @@ class Interface:
                 elif event.type == KEYDOWN:
                     if event.key == K_SPACE: # Reset game
                         print "Reset board"
-                        self.board = [[0 for i in range(3)] for j in range(3)]
+                        self.board = [0 for i in range(9)]
                         self.turn = 1
 
     # ------------------------------------------
@@ -50,11 +50,13 @@ class Interface:
     # ------------------------------------------
 
     def draw_board(self):
+        index = 0
         board_y = 0
-        for row in self.game.board:
+        for row in range(3):
             board_x = 0
-            for cell in row:
-                self.screen.blit(self.tileset[cell], (board_x, board_y))
+            for cell in range(3):
+                self.screen.blit(self.tileset[self.game.board[index]], (board_x, board_y))
+                index += 1
                 board_x += TILE_WIDTH
             board_y += TILE_HEIGHT
 

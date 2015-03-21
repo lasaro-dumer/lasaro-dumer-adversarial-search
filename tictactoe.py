@@ -23,7 +23,7 @@ class TicTacToe:
         self.playerO = self.setup_player(O, playerO)
         self.playerX = self.setup_player(X, playerX)
         self.turn = O
-        self.board = [[0 for i in range(3)] for j in range(3)]
+        self.board = [0 for i in range(9)]
         self.winner = None
 
     # ------------------------------------------
@@ -32,29 +32,27 @@ class TicTacToe:
 
     def update(self):
         # No movements after winner is found
-        if self.winner != None:
+        if self.winner:
           return
-        # Board is an attribute, keep it safe
-        copy_of_board = y = [row[:] for row in self.board]
+        # Board is an attribute, keep it safe sending a duplicate
         if self.turn == O:
-            movement = self.playerO.get_next_move(copy_of_board)
+            movement = self.playerO.get_next_move(list(self.board))
         else:
-            movement = self.playerX.get_next_move(copy_of_board)
+            movement = self.playerX.get_next_move(list(self.board))
         # Apply movement if there is one
         if movement != None:
-            x, y = movement
             # Valid move
-            if 0 <= x <= 2 and 0 <= y <= 2:
+            if 0 <= movement <= 8:
               # Clear cell
-              if self.board[y][x] == 0:
-                  self.board[y][x] = self.turn
+              if self.board[movement] == 0:
+                  self.board[movement] = self.turn
                   # Print board
                   if self.debug:
-                      print "Player " + ("O" if self.turn == O else "X") + " did " + str(movement)
-                      for row in self.board:
-                          print [[' ', 'O', 'X'][cell] for cell in row]
+                      print "\nPlayer " + ("O" if self.turn == O else "X") + " did " + str(movement)
+                      for row in [0,3,6]:
+                          print [' OX'[cell] for cell in self.board[row:(row+3)]]
                   # Find winner
-                  if find_winner(self.board) != None:
+                  if find_winner(self.board):
                       self.winner = self.turn
                       if self.debug:
                           print "Player " + ("O" if self.turn == O else "X") + " won the game"

@@ -23,9 +23,9 @@ class Player_Human:
     def get_next_move(self, board):
         empty_cells = find_empty_cells(board)
         print "Available cells:"
-        for index, cell in enumerate(empty_cells):
-            print "    " + str(index) + ": (" + str(cell[0]) + ', ' + str(cell[1]) + ")"
+        for cell in empty_cells:
+            print "    [" + str(cell) + "]"
         movement = -1
-        while movement < 0 or movement >= len(empty_cells):
+        while movement < 0 or movement > 8 or board[movement] != 0:
             movement = int(raw_input('Cell index: '))
-        return empty_cells[movement]
+        return movement

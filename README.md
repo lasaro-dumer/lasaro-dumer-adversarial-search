@@ -1,7 +1,7 @@
 # Adversarial Search
 **Adversarial search assignment**
 
-Assignment description is [here](ai-t1b.pdf)!  
+Assignment description is [here](tex/ai-t1b.pdf)!  
 Requires [Pygame](http://www.pygame.org/news.html) :snake:  
 Tested with [Python](https://www.python.org/) 2.7.9  
 Check out this [Python](http://learnpython.org/) tutorial!
@@ -48,7 +48,7 @@ Questions are in the [readme.txt](readme.txt) to be sent together with the code.
 
 ### Player Interface
 
-Players require a minimal interface to play the game. They receive their index in the initialization, you do not need to worry about this as common.py already defined ```O``` and ```X``` as constants for you. Just remember to use ```self.index``` to compare with the other cells in the board to see how you are going. The hard part is to select the best cell in the board, ```get_next_move(self, board)``` is the method that must return a valid cell during the player turn. Cells must be a tuple ```(x, y)``` with ```0 <= x <= 2 and 0 <= y <= 2```. Let us take our friend Bob as an example. [Somebody](http://en.wikipedia.org/wiki/Alice_and_Bob) told him to start in the center, but he never got the rest of the message to understand how to continue the game:
+Players require a minimal interface to play the game. They receive their index (O or X) in the initialization, you do not need to worry about this as common.py already defined ```O``` and ```X``` as constants for you. Just remember to use ```self.index``` to compare with the other cells in the board to see how you are going. The hard part is to select the best cell in the board, ```get_next_move(self, board)``` is the method that must return a valid cell during the player turn. Cells must be an integer between 0 and 8. Let us take our friend Bob as an example. [Somebody](http://en.wikipedia.org/wiki/Alice_and_Bob) told him to start in the center, but he never got the rest of the message to understand how to continue the game:
 
 ```Python
 from common import *
@@ -59,7 +59,23 @@ class Player_Bob:
         self.index = index
 
     def get_next_move(self, board):
-        return (1,1)
+        return 4
+```
+
+The board is represented by a 1D list. If we consider Bob as the X player the board would be modified like this:
+
+```
+# 0 1 2
+# 3 4 5
+# 6 7 8
+
+from common import *
+
+player = Player_Bob(X)
+board = [0,0,0,  0,0,0,  0,0,0]
+move = player.get_next_move(board)
+check_valid_move
+board[move] = X
 ```
 
 ### Hints
