@@ -65,7 +65,8 @@ class TicTacToe:
                   raise Exception("Player " + str(self.turn) + " tried to make a blocked movement: " + str(movement))
             else:
                 raise Exception("Player " + str(self.turn) + " tried to make an invalid movement: " + str(movement))
-
+        else:
+          raise Exception("No movement was selected")
     # ------------------------------------------
     # Setup player
     # ------------------------------------------
