@@ -72,7 +72,7 @@ class Player_Bob:
 
 The board is represented by a 1D list. If we consider Bob as the X player the board would be modified like this:
 
-```
+```Python
 # 0 1 2
 # 3 4 5
 # 6 7 8
