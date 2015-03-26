@@ -6,6 +6,14 @@ Requires [Pygame](http://www.pygame.org/news.html) :snake:
 Tested with [Python](https://www.python.org/) 2.7.9  
 Check out this [Python](http://learnpython.org/) tutorial!
 
+## Getting Started
+- [Download this project](https://github.com/pucrs-ai-cs/adversarial-search/archive/master.zip)
+- Install Python 2.7 and Pygame with [Super Install](super-install.sh) on Linux, you may be asked to accept, press **Y**
+
+    ```
+    bash super-install.sh
+    ```
+
 ### Source:
 The following are the files required to build your [Tic-tac-toe](http://en.wikipedia.org/wiki/Tic-tac-toe) player. Minimax and Alpha-Beta are the incomplete ones.
 
