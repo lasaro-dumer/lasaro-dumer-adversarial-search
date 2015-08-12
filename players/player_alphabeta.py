@@ -13,8 +13,8 @@ class AlphabetaPlayer(Player):
     # Initialize
     # ------------------------------------------
 
-    def __init__(self, index):
-        super(AlphabetaPlayer, self).__init__(index)
+    def __init__(self, symbol):
+        super(AlphabetaPlayer, self).__init__(symbol)
 
     # ------------------------------------------
     # Get next move

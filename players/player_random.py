@@ -14,8 +14,8 @@ class RandomPlayer(Player):
     # Initialize
     # ------------------------------------------
 
-    def __init__(self, index):
-        super(RandomPlayer, self).__init__(index)
+    def __init__(self, symbol):
+        super(RandomPlayer, self).__init__(symbol)
 
     # ------------------------------------------
     # Get next move

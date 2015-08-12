@@ -13,8 +13,8 @@ class HumanPlayer(Player):
     # Initialize
     # ------------------------------------------
 
-    def __init__(self, index):
-        super(HumanPlayer, self).__init__(index)
+    def __init__(self, symbol):
+        super(HumanPlayer, self).__init__(symbol)
         self.interface = False
         self.interface_movement = None
 
