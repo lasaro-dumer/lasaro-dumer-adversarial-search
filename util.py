@@ -24,7 +24,7 @@ def find_winner(board):
     ]:
 
         if board[c[0]] and board[c[0]] == board[c[1]] and board[c[0]] == board[c[2]]:
-            return (board[c[0]], [c[0], c[1], c[2]])
+            return (board[c[0]], c)
 
     return (None, [])
 
