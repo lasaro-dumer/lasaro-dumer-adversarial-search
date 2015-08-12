@@ -3,7 +3,9 @@
 
 import unittest
 from common import *
+from util import *
 from tictactoe import *
+from players import *
 
 PLAYS = 10
 
@@ -79,5 +81,5 @@ class Test_TicTacToe(unittest.TestCase):
         self.__class__.random_vs_minimax_results = (wins, losses, draws)
         self.assertGreaterEqual(percentage(losses, PLAYS), 0.2)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

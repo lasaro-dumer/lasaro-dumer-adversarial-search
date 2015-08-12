@@ -1,25 +1,28 @@
 #!/usr/bin/env python
 # Four spaces as indentation [no tabs]
 
-from common import *
+import random
+from player import Player
 
 # ==========================================
-# Player Minimax
+# Player Random
 # ==========================================
 
-class Player_Minimax:
+class RandomPlayer(Player):
 
     # ------------------------------------------
     # Initialize
     # ------------------------------------------
 
     def __init__(self, index):
-        self.index = index
+        super(RandomPlayer, self).__init__(index)
 
     # ------------------------------------------
     # Get next move
     # ------------------------------------------
 
     def get_next_move(self, board):
-        # TODO
-        return None
+        cells = self.find_empty_cells(board)
+        if len(cells) == 0:
+            return None
+        return random.choice(cells)

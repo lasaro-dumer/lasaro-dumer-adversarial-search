@@ -3,10 +3,8 @@
 
 import sys
 from common import *
-from player_human import *
-from player_random import *
-from player_minimax import *
-from player_alphabeta import *
+from util import *
+from players import *
 
 # ==========================================
 # TicTacToe
@@ -18,90 +16,112 @@ class TicTacToe:
     # Initialize
     # ------------------------------------------
 
-    def __init__(self, playerO, playerX, debug = True):
+    def __init__(self, playerO, playerX, debug=True):
         self.debug = debug
-        self.playerO = self.setup_player(O, playerO)
-        self.playerX = self.setup_player(X, playerX)
+        self.players = {
+            O: playerO,
+            X: playerX
+        }
+        self.reset()
+
+    # ------------------------------------------
+    # Reset
+    # ------------------------------------------
+
+    def reset(self):
         self.turn = O
-        self.board = [0 for i in range(9)]
+        self.board = [None] * 9
         self.winner = None
+
+    # ------------------------------------------
+    # Get turn player
+    # ------------------------------------------
+
+    def turn_player(self):
+        if self.winner is not None:
+            return None
+        return self.players[self.turn]
 
     # ------------------------------------------
     # Update
     # ------------------------------------------
 
     def update(self):
+
         # No movements after winner is found
-        if self.winner:
+        if self.winner is not None:
           return
+
         # Board is an attribute, keep it safe sending a duplicate
-        if self.turn == O:
-            movement = self.playerO.get_next_move(list(self.board))
-        else:
-            movement = self.playerX.get_next_move(list(self.board))
+        movement = self.turn_player().get_next_move(list(self.board))
+
         # Apply movement if there is one
         if movement != None:
+
             # Valid move
             if 0 <= movement <= 8:
-              # Clear cell
-              if self.board[movement] == 0:
-                  self.board[movement] = self.turn
-                  # Print board
-                  if self.debug:
-                      print "\nPlayer " + ("O" if self.turn == O else "X") + " did " + str(movement)
-                      for row in [0,3,6]:
-                          print [' OX'[cell] for cell in self.board[row:(row+3)]]
-                  # Find winner
-                  if find_winner(self.board):
-                      self.winner = self.turn
-                      if self.debug:
-                          print "Player " + ("O" if self.turn == O else "X") + " won the game"
-                  elif not find_empty_cells(self.board):
-                      self.winner = DRAW
-                      if self.debug:
-                          print "No player won the game"
-                  self.turn ^= 3 # 1 => 2, 2 => 1
-              else:
-                  raise Exception("Player " + str(self.turn) + " tried to make a blocked movement: " + str(movement))
-            else:
-                raise Exception("Player " + str(self.turn) + " tried to make an invalid movement: " + str(movement))
-        else:
-          raise Exception("No movement was selected")
-    # ------------------------------------------
-    # Setup player
-    # ------------------------------------------
 
-    def setup_player(self, index, type):
-        if type == HUMAN:
-            if self.debug:
-                print "Player " + ("O" if index == O else "X") + " is HUMAN"
-            return Player_Human(index)
-        elif type == RANDOM:
-            if self.debug:
-                print "Player " + ("O" if index == O else "X") + " is RaNdOM"
-            return Player_Random(index)
-        elif type == MINIMAX:
-            if self.debug:
-                print "Player " + ("O" if index == O else "X") + " is miniMAX"
-            return Player_Minimax(index)
-        elif type == ALPHABETA:
-            if self.debug:
-                print "Player " + ("O" if index == O else "X") + " is AlphaBeta"
-            return Player_Alphabeta(index)
+                # Clear cell
+                if self.board[movement] == None:
+                    self.board[movement] = self.turn
+
+                    # Print board
+                    if self.debug:
+                        print "{} chose movement {}.".format(self.turn_player(), movement)
+                        print_board(self.board)
+
+                    # Find winner
+                    self.check_for_winner()
+                    if self.winner != None:
+                        if self.debug:
+                            print "{} won the game.".format(self.winner)
+                        return
+
+                    # Check for draw
+                    elif not find_empty_cells(self.board):
+                        self.winner = DRAW
+                        if self.debug:
+                            print "No player won the game".format(self.turn_player())
+
+                    # Change player for next turn
+                    if self.turn == O:
+                        self.turn = X
+                    else:
+                        self.turn = O
+
+                else:
+                    raise BlockedMovementException(self.board, self.turn_player(), movement)
+            else:
+                raise InvalidMovementException(self.board, self.turn_player(), movement)
         else:
-            raise Exception("Player type is invalid: " + str(type))
+            raise NoMovementException(self.board, self.turn_player())
+
+    def check_for_winner(self):
+        winner, self.winner_movement = find_winner(self.board)
+        if winner is not None:
+            self.winner = self.players[winner]
+
 
 # ==========================================
 # Main
 # ==========================================
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
-        playerO = int(sys.argv[1])
-        playerX = int(sys.argv[2])
-    else:
-        print "Loading default random players"
-        playerO = RANDOM
-        playerX = RANDOM
-    game = TicTacToe(playerO, playerX)
-    while game.winner == None:
+
+    import argparse
+
+    available_players = { str(cls): cls for cls in vars()["Player"].__subclasses__() }
+
+    parser = argparse.ArgumentParser(description="Execute tic-tac-toe.")
+    parser.add_argument("--debug", action="store_true", help="Enable debug")
+    parser.add_argument("playerO", choices=available_players.keys(), help="Player O")
+    parser.add_argument("playerX", choices=available_players.keys(), help="Player X")
+
+    args = parser.parse_args()
+
+    playerO = available_players[args.playerO](O)
+    playerX = available_players[args.playerX](X)
+
+    game = TicTacToe(playerO, playerX, debug=args.debug)
+
+    while game.winner is None:
         game.update()

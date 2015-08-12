@@ -4,50 +4,41 @@
 import os, inspect
 
 PATH          = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+
+# Interface
 WAIT          = 1
-# Board
 ZOOM          = 6
 TILE_WIDTH    = 16 * ZOOM
 TILE_HEIGHT   = 16 * ZOOM
-# Modes
-HUMAN         = 0
-RANDOM        = 1
-MINIMAX       = 2
-ALPHABETA     = 3
+
 # Index symbol
-O = 1
-X = 2
-DRAW = 0
+O    = "O"
+X    = "X"
+DRAW = False
 
 # ------------------------------------------
-# Find winner
+# Movements Exceptions
 # ------------------------------------------
 
-def find_winner(board):
-    # Rows
-    if board[0] and board[0] == board[1] and board[1] == board[2]:
-        return board[0]
-    elif board[3] and board[3] == board[4] and board[4] == board[5]:
-        return board[3]
-    elif board[6] and board[6] == board[7] and board[7] == board[8]:
-        return board[6]
-    # Columns
-    elif board[0] and board[0] == board[3] and board[3] == board[6]:
-        return board[0]
-    elif board[1] and board[1] == board[4] and board[4] == board[7]:
-        return board[1]
-    elif board[2] and board[2] == board[5] and board[5] == board[8]:
-        return board[2]
-    # Diagonals
-    elif board[0] and board[0] == board[4] and board[4] == board[8]:
-        return board[0]
-    elif board[2] and board[2] == board[4] and board[4] == board[6]:
-        return board[2]
-    return None
+class BlockedMovementException(Exception):
+    def __init__(self, board, player, movement):
+        self.board = list(board)
+        self.player = player
+        self.movement = movement
+    def __str__(self):
+        return "{} tries blocked movement {}.".format(self.player, self.movement)
 
-# ------------------------------------------
-# Find empty cells
-# ------------------------------------------
+class InvalidMovementException(Exception):
+    def __init__(self, board, player, movement):
+        self.board = list(board)
+        self.player = player
+        self.movement = movement
+    def __str__(self):
+        return "{} tries invalid movement {}.".format(self.player, self.movement)
 
-def find_empty_cells(board):
-    return [index for index in range(9) if board[index] == 0]
+class NoMovementException(Exception):
+    def __init__(self, board, player):
+        self.board = list(board)
+        self.player = player
+    def __str__(self):
+        return "{} do not move.".format(self.player)
