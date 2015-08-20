@@ -23,6 +23,7 @@ def find_winner(board):
         [2, 4, 6]
     ]:
 
+        # Check if a combination is filled by the same symbol
         if board[c[0]] and board[c[0]] == board[c[1]] and board[c[0]] == board[c[2]]:
             return (board[c[0]], c)
 

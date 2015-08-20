@@ -109,6 +109,8 @@ if __name__ == "__main__":
 
     import argparse
 
+    # Gel all Player sub-classes
+    # Use meta-class String representation as argument to choose players
     available_players = { str(cls): cls for cls in vars()["Player"].__subclasses__() }
 
     parser = argparse.ArgumentParser(description="Execute tic-tac-toe.")
@@ -118,10 +120,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Instance players
     playerO = available_players[args.playerO](O)
     playerX = available_players[args.playerX](X)
 
+    # Create game with chosen players
     game = TicTacToe(playerO, playerX, debug=args.debug)
 
+    # While game does not have a winner (or False for draw)
     while game.winner is None:
         game.update()

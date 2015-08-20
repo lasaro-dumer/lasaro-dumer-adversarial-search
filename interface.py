@@ -23,9 +23,13 @@ class Interface:
         self.game = game
         self.mouse_pos = None
 
+        # Setup board window
         self.setup_board()
+
+        # Setup interation of human players
         self.setup_humans()
 
+        # Render window
         self.draw_board()
 
         # Loop
@@ -39,8 +43,11 @@ class Interface:
                     self.game.update()
                     self.draw_board()
                 except NoMovementException, e:
-                    # Waiting for human interaction
-                    pass
+                    if self.is_human_turn():
+                        # Waiting for human interaction
+                        pass
+                    else:
+                        raise e
                 time_passed = time.time()
 
             # Events
@@ -90,7 +97,11 @@ class Interface:
             for col in range(3):
 
                 board_index = row * 3 + col
+
+                # Cell rectangle
                 cell = Rect(TILE_WIDTH * col, TILE_HEIGHT * row, TILE_WIDTH, TILE_HEIGHT)
+
+                # Check if mouse is over a cell
                 mouse_over = self.mouse_pos is not None and cell.collidepoint(self.mouse_pos)
 
                 # Winner movement
