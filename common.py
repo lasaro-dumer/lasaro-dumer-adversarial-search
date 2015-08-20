@@ -11,11 +11,6 @@ ZOOM          = 6
 TILE_WIDTH    = 16 * ZOOM
 TILE_HEIGHT   = 16 * ZOOM
 
-# Index symbol
-O    = "O"
-X    = "X"
-DRAW = False
-
 # ------------------------------------------
 # Movements Exceptions
 # ------------------------------------------

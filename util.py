@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # Four spaces as indentation [no tabs]
 
+
+# States of the game
+EMPTY = None
+O     = "O"
+X     = "X"
+DRAW  = False # If there is no winner
+
 # ------------------------------------------
 # Find winner
 # ------------------------------------------
