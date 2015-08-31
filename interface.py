@@ -187,8 +187,8 @@ if __name__ == "__main__":
 
     available_players = { str(cls): cls for cls in vars()["Player"].__subclasses__() }
 
-    parser = argparse.ArgumentParser(description="Execute tic-tac-toe.")
-    parser.add_argument("--debug", action="store_true", help="Enable debug")
+    parser = argparse.ArgumentParser(description="Execute tic-tac-toe with GUI.")
+    parser.add_argument("--quiet", action="store_true", help="Disable debug")
     parser.add_argument("playerO", choices=available_players.keys(), help="Player O")
     parser.add_argument("playerX", choices=available_players.keys(), help="Player X")
 
@@ -197,6 +197,6 @@ if __name__ == "__main__":
     playerO = available_players[args.playerO](O)
     playerX = available_players[args.playerX](X)
 
-    game = TicTacToe(playerO, playerX, debug=args.debug)
+    game = TicTacToe(playerO, playerX, debug=not args.quiet)
 
     Interface(game)
