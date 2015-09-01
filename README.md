@@ -1,5 +1,8 @@
 # Adversarial Search
 **Adversarial search assignment**
+<a href="https://travis-ci.org/pucrs-ai-cs/adversarial-search" target="_blank">
+<img src="https://travis-ci.org/pucrs-ai-cs/adversarial-search.svg"  title="Build Status" border="0"/>
+</a>
 
 Assignment description is [here](ai-t1b.pdf)!
 Requires [Pygame](http://www.pygame.org/news.html) :snake:
