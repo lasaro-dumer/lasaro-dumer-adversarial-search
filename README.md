@@ -42,15 +42,15 @@ Player :o: is the first to play, followed by :x:, but your players can behave di
 | minimax   | Minimax :arrow_down_small::arrow_up_small: |
 | alphabeta | Alpha-Beta :rocket: |
 
-Use ```--debug``` flag to enable verbose output of movements during the game.
+Use ```--quiet``` flag to disable verbose output of movements during the game.
 
 - Execute interface with default players
 ```
-python interface.py [--debug] [playerO playerX]
+python interface.py [--quiet] [playerO playerX]
 ```
 - Execute terminal with default players
 ```
-python tictactoe.py [--debug] [playerO playerX]
+python tictactoe.py [--quiet] [playerO playerX]
 ```
 - Execute tests
 ```

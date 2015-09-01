@@ -66,15 +66,14 @@ class TicTacToe:
                     self.board[movement] = self.turn
 
                     # Print board
+                    print "{} chose movement {}.".format(self.turn_player(), movement)
                     if self.debug:
-                        print "{} chose movement {}.".format(self.turn_player(), movement)
                         print_board(self.board)
 
                     # Find winner
                     self.check_for_winner()
                     if self.winner != None:
-                        if self.debug:
-                            print "{} won the game.".format(self.winner)
+                        print "{} won the game.".format(self.winner)
                         return
 
                     # Check for draw
@@ -114,7 +113,7 @@ if __name__ == "__main__":
     available_players = { str(cls): cls for cls in vars()["Player"].__subclasses__() }
 
     parser = argparse.ArgumentParser(description="Execute tic-tac-toe.")
-    parser.add_argument("--debug", action="store_true", help="Enable debug")
+    parser.add_argument("--quiet", action="store_true", help="Disable debug")
     parser.add_argument("playerO", choices=available_players.keys(), help="Player O")
     parser.add_argument("playerX", choices=available_players.keys(), help="Player X")
 
@@ -125,7 +124,7 @@ if __name__ == "__main__":
     playerX = available_players[args.playerX](X)
 
     # Create game with chosen players
-    game = TicTacToe(playerO, playerX, debug=args.debug)
+    game = TicTacToe(playerO, playerX, debug=not args.quiet)
 
     # While game does not have a winner (or False for draw)
     while game.winner is None:

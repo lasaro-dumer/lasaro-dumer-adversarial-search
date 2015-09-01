@@ -29,14 +29,13 @@ class HumanPlayer(Player):
             self.interface_movement = None
             return move
         else:
-            empty_cells = self.find_empty_cells(board)
             print "Available movements:"
-            self.print_board(board, show_plays=False)
+            self.print_board(board)
 
             self.interface_movement = None
             while self.interface_movement is None:
                 try:
-                    movement = int(raw_input("Cell: "))
+                    movement = int(raw_input("Cell [1-9]: "))
                     self.set_next_move(board, movement-1)
                 except Exception, e:
                     pass
@@ -53,12 +52,12 @@ class HumanPlayer(Player):
         else:
             self.interface_movement = movement
 
-    def print_board(self, board, only_empty=True, show_plays=False):
+    def print_board(self, board, only_empty=True, show_plays=True):
         content = list(board)
-        if only_empty or show_plays:
-            if not show_plays:
-                content = [" " if play != None else play for i, play in enumerate(content)]
+        if show_plays:
             content = [i+1 if play == None else play for i, play in enumerate(content)]
+        elif only_empty:
+            content = [i+1 if play == None else " " for i, play in enumerate(content)]
         else:
             content = [i+1 for i, play in enumerate(content)]
 
