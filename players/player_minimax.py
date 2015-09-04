@@ -43,19 +43,19 @@ class MinimaxPlayer(Player):
         maxAction = None
         maxValue = float('inf') * (-1)
         available = find_empty_cells(board);
-        print available
+
         for action in available:
-            res = self.result((board,0,1),action)
+            res = self.result((board,0,1),action,self.me())
             minVal = self.minValue(res)
             if minVal > maxValue:
                 maxValue = minVal
                 maxAction = action
-        print 'moving to ',maxAction
+
         return maxAction
 
-    def result(self,state,action):
+    def result(self,state,action,sym):
         nBoard = list(state[0])
-        nBoard[action] = self.symbol
+        nBoard[action] = sym
         return (nBoard,find_empty_cells(nBoard),state[2]+1)
 
     def minValue(self,state):
@@ -63,7 +63,7 @@ class MinimaxPlayer(Player):
             return self.utility(state)
         v = float('inf')
         for action in state[1]:
-            v = min(v,self.maxValue(self.result(state,action)))
+            v = min(v,self.maxValue(self.result(state,action,self.opp())))
         return v
 
     def maxValue(self,state):
@@ -71,7 +71,7 @@ class MinimaxPlayer(Player):
             return self.utility(state)
         v = float('inf') * (-1)
         for action in state[1]:
-            v = max(v,self.minValue(self.result(state,action)))
+            v = max(v,self.minValue(self.result(state,action,self.me())))
         return v
 
     def isTerminal(self,state):
@@ -79,10 +79,10 @@ class MinimaxPlayer(Player):
 
     def utility(self,state):
         winner = find_winner(state[0])[0]
-        free = state[1]
+        free = len(state[1])
         if winner == None:
             return 5 * free * state[2]
-        if winner == self.symbol:
+        if winner == self.me():
             return 10 * free * state[2]
-
-        return -10 * free * state[2]
+        if winner == self.opp():
+            return -10 * free * state[2]
