@@ -22,24 +22,6 @@ class MinimaxPlayer(Player):
     # ------------------------------------------
 
     def get_next_move(self, board):
-
-        # TODO Here you will implement the Minimax algorithm.
-        # This method may return the best movement based on Minimax score
-        # for the current board.
-
-        # If you want, you can use here some helper functions:
-        #
-        # - find_winner(board): This method checks if someone wins in the
-        #   parametrized board and return a tuple (Winner, Winner movement).
-        #
-        # - find_empty_cells(board): This method checks if there are available
-        #   moves in the parametrized board. It returns an array containing
-        #   the available moves.
-        #
-        # - print_board(board): This method helps you debugging your code.
-        #   It prints a board filled with the executed moves.
-        #   WARNING: printing can slow your code. Use it just for debug.
-        #
         maxAction = None
         maxValue = float('inf') * (-1)
         available = find_empty_cells(board);
@@ -56,7 +38,8 @@ class MinimaxPlayer(Player):
     def result(self,state,action,sym):
         nBoard = list(state[0])
         nBoard[action] = sym
-        return (nBoard,find_empty_cells(nBoard),state[2]+1)
+        nextActions = find_empty_cells(nBoard)
+        return (nBoard,nextActions,state[2]+1)
 
     def minValue(self,state):
         if self.isTerminal(state):
@@ -81,7 +64,7 @@ class MinimaxPlayer(Player):
         winner = find_winner(state[0])[0]
         free = len(state[1])
         if winner == None:
-            return 5 * free * state[2]
+            return 0
         if winner == self.me():
             return 10 * free * state[2]
         if winner == self.opp():
