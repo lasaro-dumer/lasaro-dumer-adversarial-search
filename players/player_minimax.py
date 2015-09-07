@@ -24,48 +24,51 @@ class MinimaxPlayer(Player):
     def get_next_move(self, board):
         maxAction = None
         maxValue = float('inf') * (-1)
-        available = find_empty_cells(board);
 
-        for action in available:
-            res = self.result((board,0,1),action,self.me())
-            minVal = self.minValue(res)
+        succs = self.successors((board,0),self.me())
+        for succ in succs:
+            minVal = self.minValue(succ)
             if minVal > maxValue:
                 maxValue = minVal
-                maxAction = action
-
+                maxAction = succ[2]
         return maxAction
 
-    def result(self,state,action,sym):
-        nBoard = list(state[0])
-        nBoard[action] = sym
-        nextActions = find_empty_cells(nBoard)
-        return (nBoard,nextActions,state[2]+1)
+    def successors(self,state,sym):
+        available = find_empty_cells(state[0])
+        moves = state[1]+1
+        succs = []
+        for action in available:
+            nBoard = list(state[0])
+            nBoard[action] = sym
+            succs.append((nBoard,moves,action,len(available)-1))
+        return succs
 
     def minValue(self,state):
         if self.isTerminal(state):
             return self.utility(state)
         v = float('inf')
-        for action in state[1]:
-            v = min(v,self.maxValue(self.result(state,action,self.opp())))
+        succs = self.successors(state,self.opp())
+        for succ in succs:
+            v = min(v,self.maxValue(succ))
         return v
 
     def maxValue(self,state):
         if self.isTerminal(state):
             return self.utility(state)
         v = float('inf') * (-1)
-        for action in state[1]:
-            v = max(v,self.minValue(self.result(state,action,self.me())))
+        succs = self.successors(state,self.me())
+        for succ in succs:
+            v = max(v,self.minValue(succ))
         return v
 
     def isTerminal(self,state):
-        return (len(state[1]) == 0) or (find_winner(state[0])[0] != None)
+        return (state[3] <= 0) or (find_winner(state[0])[0] != None)
 
     def utility(self,state):
         winner = find_winner(state[0])[0]
-        free = len(state[1])
         if winner == None:
             return 0
         if winner == self.me():
-            return 10 * free * state[2]
+            return 10 - (state[1])
         if winner == self.opp():
-            return -10 * free * state[2]
+            return (state[1]) - 10
