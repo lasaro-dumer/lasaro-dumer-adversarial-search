@@ -66,14 +66,16 @@ class TicTacToe:
                     self.board[movement] = self.turn
 
                     # Print board
-                    print "{} chose movement {}.".format(self.turn_player(), movement)
+                    if self.debug:
+                        print "{} chose movement {}.".format(self.turn_player(), movement)
                     if self.debug:
                         print_board(self.board)
 
                     # Find winner
                     self.check_for_winner()
                     if self.winner != None:
-                        print "{} won the game.".format(self.winner)
+                        if self.debug:
+                            print "{} won the game.".format(self.winner)
                         return
 
                     # Check for draw
@@ -114,6 +116,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Execute tic-tac-toe.")
     parser.add_argument("--quiet", action="store_true", help="Disable debug")
+    parser.add_argument("--times", action="store_true", help="Enable time measure")
     parser.add_argument("playerO", choices=available_players.keys(), help="Player O")
     parser.add_argument("playerX", choices=available_players.keys(), help="Player X")
 
@@ -126,6 +129,16 @@ if __name__ == "__main__":
     # Create game with chosen players
     game = TicTacToe(playerO, playerX, debug=not args.quiet)
 
+    if args.times:
+        import time
+        start_time = time.time()
     # While game does not have a winner (or False for draw)
     while game.winner is None:
         game.update()
+    if args.times:
+        elapsed_time = time.time() - start_time
+        if game.winner:
+            print "{} won the game.".format(game.turn)
+        else:
+            print 'drawn'
+        print 'elapsed_time=',elapsed_time

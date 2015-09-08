@@ -74,5 +74,21 @@ class Test_TicTacToe(unittest.TestCase):
         self.assertGreaterEqual(percentage(losses, PLAYS), 0.5)
         self.assertEqual(errors, 0)
 
+    # ------------------------------------------
+    # Minimax Vs Random
+    # ------------------------------------------
+
+    def test_minimax_vs_random_minimax(self):
+        wins, losses, draws, errors = self.versus(MINIMAX, RANDOM, PLAYS)
+
+        print "Minimax Vs Random results:"
+        print "  Wins: %f (%f%%)" % ( wins, percentage(wins, PLAYS) )
+        print "  Losses: %f (%f%%)" % ( losses, percentage(losses, PLAYS) )
+        print "  Draws: %f (%f%%)" % ( draws, percentage(draws, PLAYS) )
+
+        # Minimax losses == Random wins
+        self.assertGreaterEqual(percentage(wins, PLAYS), 0.5)
+        self.assertEqual(errors, 0)
+
 if __name__ == "__main__":
     unittest.main(verbosity=False)
